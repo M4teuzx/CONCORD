@@ -1,0 +1,37 @@
+body {
+    background: url('./media/banner.png') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+.login-box {
+    background-color: #313338;
+    padding: 4vw 5vw 5vw 5vw;
+    border-radius: 10px;
+    color: #B5BAC1;
+    font-family: noto-sans, sans-serif;
+}
+
+h4{
+    color: #F2F3F5;
+    font-family: noto-sans, sans-serif;
+}
+
+.btn-primary {
+    background-color: #2AD17D;
+    border-color: #2AD17D;
+    width: 100%;
+}
+
+#username {
+    background-color: #1E1F22;
+    border-color: #1E1F22;
+    color: #F2F3F5;
+}
+
+.logintudo{
+    margin-top: 10vw;
+}
+
+.ultima-letra {
+    color: #F23F42;
+}

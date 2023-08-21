@@ -1,0 +1,402 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Concord - chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="./media/logo.png" rel="icon">
+    <style>
+      html, body {
+        height: 100%;
+      }
+      
+      #chat-panel {
+        flex-basis: 80%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background: #313338;
+      }
+
+      #chat-container {
+        display: flex;
+        height: 100%;
+      }
+
+      #room-list {
+        flex-basis: 20%;
+        background: #2B2D31;
+        color: #fff;
+      }
+
+      #room-list ul {
+        list-style-type: none;
+        padding: 20px;
+        margin: 0;
+      }
+
+      #room-list li {
+        margin-bottom: 10px;
+        cursor: pointer;
+        background: #404348;
+        border-radius: 12px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      #room-list li:hover {
+        opacity: 0.7;
+      }
+
+      #room-list li::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background-image: url('./media/Ellipse 5.png');
+        background-size: cover;
+        margin-left: 10px;
+      }
+
+      #room-list li:nth-child(3)::after,
+      #room-list li:nth-child(4)::after {
+      width: 15px;
+      height: 15px;
+      background-image: url('./media/cadeado 2.png');
+    }
+
+      #chat-messages {
+        flex-grow: 1;
+        overflow-y: auto;
+        background-color: #f1f1f1;
+        padding: 10px;
+        background: #313338;
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      .mensagem {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .perfil img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .conteudo-remetente {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .remetente {
+        font-weight: bold;
+      }
+
+      .conteudo {
+        margin-top: 5px;
+      }
+
+      #chat-input {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      #chat-input input[type="text"] {
+        flex-grow: 1;
+        padding: 5px;
+        border-radius: 5px;
+        border: none;
+        margin-right: 10px;
+      }
+
+      #chat-input button {
+        padding: 5px 10px;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      #chat-input button:hover {
+        background-color: #677bc4;
+      }
+
+      .salas {
+        background: #2B2D31;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        width: 20vw;
+        height: 78px;
+        left: 0px;
+        top: 0px;
+        display: flex;
+        padding: 0 10px;
+        font-size: 20px;
+      }
+
+
+      .salas::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background-size: cover;
+        margin-right: 10px;
+      }
+
+      .criar {
+        width: 100%;
+        height: 46px;
+        background: #2AD17D;
+        border-radius: 12px;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .criar:hover {
+        background: #22a966;
+      }
+
+      .caixa {
+        width: 100%;
+        height: 46px;
+        background: #383A40;
+        border-radius: 52px;
+        border: none;
+        color: #fff;
+      }
+
+      .enviar {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        background: #2AD17D;
+      }
+
+      .info {
+        padding-left: 50%;
+        width: 30px;
+        height: 30px;
+      }
+
+      .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .popup-content {
+      background-color: #404348;
+      padding: 20px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .popup-content .btn.botao-popup {
+      margin-top: 10px;
+    }
+
+    .popup-buttons {
+      display: flex;
+      justify-content: center;
+    }
+    .dropdown-menu {
+      background-color: #404348;
+      border-radius: 20px;
+      border: none;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .popup-input{
+      border-radius: 10px;
+    }
+
+    .botao-popup{
+      background: #2AD17D;
+      cursor: pointer;
+    }
+
+    .info2{
+    padding-left: 50%;
+    }
+
+    #entrar{
+      background: #2AD17D;
+      cursor: pointer;
+    
+    }
+
+    #fechar{
+      background: #F23F42;
+      cursor: pointer;
+    }
+
+    </style>
+  </head>
+  <body>
+    <div id="chat-container">
+      <div id="room-list">
+        <div class="salas pt-4 pl-1">
+          <p class="titulo"># Sala 1</p>
+          <div class="info2">
+          <a class="info" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="./media/direito 1.png">
+          </a>
+          <div class="dropdown-menu">
+            <p class="dropdown-item text-white" href="#">Criado por: usuario#54 </p>
+            <p class="dropdown-item text-white" href="#">Criada em: 23/01/2012 </p>
+            
+          </div>
+        </div>
+        </div>
+        <ul>
+          <li># Sala 1</li>
+          <li># Sala 2</li>
+          <li class="private-room"># Sala 3</li>
+          <li class="private-room"># Sala 4</li>
+          <button class="criar fw-bold" onclick="showPopup()">+</button>
+        </ul>
+      </div>
+      <div id="chat-panel">
+        <div id="chat-messages">
+          <div class="mensagem">
+            <div class="perfil">
+              <img src="./media/pfp.jpg" alt="Foto de Perfil">
+            </div>
+            <div class="conteudo-remetente">
+              <div class="remetente text-white">Usuário#54</div>
+              <div class="conteudo text-white">lorem ipsum nao sei oq nao sei oq lá nao quero pesquisar no google pra copiar</div>
+              
+            </div>
+          </div>
+          <div class="mensagem">
+            <div class="perfil">
+              <img src="./media/pfp.jpg" alt="Foto de Perfil">
+            </div>
+            <div class="conteudo-remetente">
+              <div class="remetente text-white">Usuário#54</div>
+              <div class="conteudo text-white">lorem ipsum nao sei oq nao sei oq lá nao quero pesquisar no google pra copiar</div>
+              
+            </div>
+          </div>
+          <div class="mensagem">
+            <div class="perfil">
+              <img src="./media/pfp.jpg" alt="Foto de Perfil">
+            </div>
+            <div class="conteudo-remetente">
+              <div class="remetente text-white">Usuário#54</div>
+              <div class="conteudo text-white">lorem ipsum nao sei oq nao sei oq lá nao quero pesquisar no google pra copiar</div>
+              
+            </div>
+          </div>
+        </div>
+        <div id="chat-input">
+          <input class="caixa pl-3" placeholder="Conversar em {salaID}">
+          <button class="enviar ml-2">&#10148;</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="popup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <h2 class="text-white">Criar Sala</h2>
+        <form>
+          <div class="form-group">
+            <label class="text-white" for="nomeSala">Nome da Sala:</label>
+            <input class="form-control px-5 popup-input" id="nomeSala">
+          </div>
+          <div class="form-group">
+            <label class="text-white">Tipo de Sala:</label>
+            <select class="form-control popup-input" id="tipoSala" onchange="showHidePassword()">
+              <option value="publica">Pública</option>
+              <option value="privada">Privada</option>
+            </select>
+          </div>
+          <div id="senhaSalaContainer" class="form-group" style="display: none;">
+            <label class="text-white" for="senhaSala">Senha da Sala:</label>
+            <input class="form-control px-5 popup-input" id="senhaSala">
+          </div>
+          <div class="popup-buttons">
+            <button class="btn botao-popup text-white m-2">Criar</button>
+            <button class="btn botao-popup text-white m-2" id="fechar" onclick="hidePopup()">Fechar</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="password-popup" class="popup" style="display: none;">
+        <div class="popup-content">
+          <h2 class="text-white">Entrar na sala</h2>
+          <form>
+            <div class="form-group">
+              <label class="text-white" for="senhaSala">Digite a senha:</label>
+              <input class="form-control px-5 popup-input" id="senhaSala" type="password">
+            </div>
+            <div class="popup-buttons">
+              <button class="btn botao-popup text-white m-2">Entrar</button>
+              <button class="btn botao-popup text-white m-2" id="fechar" onclick="hidePopup()">Fechar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+  </body>
+
+  <script>
+    function showPopup() {
+      document.getElementById('popup').style.display = 'flex';
+    }
+
+    function hidePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    function showHidePassword() {
+      let tipoSala = document.getElementById('tipoSala');
+      let senhaSalaContainer = document.getElementById('senhaSalaContainer');
+
+      if (tipoSala.value === 'privada') {
+        senhaSalaContainer.style.display = 'block';
+      } else {
+        senhaSalaContainer.style.display = 'none';
+      }
+    }
+
+    // Adicione o evento de clique aos itens das salas privadas
+var privateRooms = document.querySelectorAll('#room-list li.private-room');
+privateRooms.forEach(function(room) {
+  room.addEventListener('click', function() {
+    showPasswordPopup();
+  });
+});
+
+// Função para exibir o popup de senha
+function showPasswordPopup() {
+  var passwordPopup = document.getElementById('password-popup');
+  passwordPopup.style.display = 'flex';
+}
+
+// Função para fechar o popup de senha
+function closePasswordPopup() {
+  var passwordPopup = document.getElementById('password-popup');
+  passwordPopup.style.display = 'none';
+}
+  </script>
+
+  </html>
